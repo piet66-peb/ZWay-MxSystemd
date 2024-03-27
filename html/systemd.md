@@ -14,7 +14,7 @@ need to be taken into account.
 
 A working configuration file **z-way-server.service** for Z-Way:
 
-```systemd
+```sh
 # z-way-server.service: systemd service file
 
 [Unit]
@@ -155,7 +155,7 @@ It consists of
 
 ### The Systemd Service File
 
-```systemd
+```sh
 # z-way-server.service: systemd service file
 
 [Unit]
@@ -194,7 +194,7 @@ WantedBy=multi-user.target
    `sudo systemctl enable z-way-server`<br>
    `sudo systemctl start z-way-server`
 
-Remark: The results files are stored with the current timestamp and are
+Note: The results files are stored with the current timestamp and are
 not removed automatically.
 
 
