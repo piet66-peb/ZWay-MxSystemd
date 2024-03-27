@@ -1,0 +1,16 @@
+#!/bin/bash
+#h-------------------------------------------------------------------------------
+#h
+#h Name:         params
+#h Type:         Linux shell script
+#h Purpose:      parameters for MxSystemd
+#h Project:      z-Way Homeserver
+#h Installation: rename the file params_template to params,
+#h               and enter your parameters
+#h
+#h-------------------------------------------------------------------------------
+
+# target directory for the coredump examination results:
+# default: current directory
+#export EXAM_DIR='<exam_dir>'
+
