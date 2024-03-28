@@ -24,7 +24,7 @@
 #h Resources:    curl
 #h Platforms:    Linux
 #h Authors:      peb piet66
-#h Version:      V1.4 2024-01-21/peb
+#h Version:      V1.4 2024-03-28/peb
 #v History:      V1.0 2019-09-14/peb first version
 #h Copyright:    (C) piet66 2019
 #h
@@ -33,12 +33,12 @@
 #b Constants
 #-----------
 VERSION='V1.4'
-WRITTEN='2024-01-21/peb'
+WRITTEN='2024-03-28/peb'
 
 SIGINT=2
 SIGTERM=15
 
-LOG_MAX=5
+LOG_MAX=1
 
 EXIT_CODE=99
 RETURN_VALUE='FAILURE'

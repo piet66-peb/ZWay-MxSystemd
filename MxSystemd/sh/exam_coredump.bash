@@ -14,7 +14,7 @@
 #h Resources:    coredumpctl (systemd-coredump), lz4
 #h Platforms:    Linux with systemd/systemctl
 #h Authors:      peb piet66
-#h Version:      V1.0.0 2024-03-27/peb
+#h Version:      V1.0.0 2024-03-28/peb
 #v History:      V1.0.0 2024-03-26/peb first version
 #h Copyright:    (C) piet66 2024
 #h
@@ -24,7 +24,7 @@
 #-----------
 MODULE='exam_coredump.bash'
 VERSION='V1.0.0'
-WRITTEN='2024-03-27/peb'
+WRITTEN='2024-03-28/peb'
 
 #b Variables
 #-----------
@@ -67,7 +67,7 @@ function collect_data
 
     echo -e "\n===== gdb:\n"
     #uncompress lz4 file before using with gdb:
-    COREDUMP=${currtime}_coredump
+    COREDUMP=coredump_decomp
     [ -e "$COREDUMP" ] && sudo mv -f "$COREDUMP" "$COREDUMP.previous"
     echo sudo lz4 -dfq $STORAGE $COREDUMP
     sudo lz4 -dfq $STORAGE $COREDUMP 
@@ -88,7 +88,10 @@ then
         then
             SUBJECT="$SERVICE failed - restarted"
             CONTENT="examine core dump to \n   ${EXAM_DIR}/${currtime}_coredump_exam"
-            ./sendEmail.bash "$SUBJECT" "$CONTENT"
+            ./sendEmail.bash "$SUBJECT" "$CONTENT" &
+        else
+            echo 'create an emailAccount.cfg file to get a notification' >${currtime}_coredump_exam
+            echo '' >>${currtime}_coredump_exam
         fi
     popd >/dev/null
      
@@ -96,7 +99,7 @@ then
     #-------------------
     [ -d "$EXAM_DIR" ] || mkdir -p "$EXAM_DIR"  
     pushd $EXAM_DIR >/dev/null 2>&1
-        collect_data >${currtime}_coredump_exam
+        collect_data >>${currtime}_coredump_exam
     popd >/dev/null
 fi
 exit 0
