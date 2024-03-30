@@ -34,8 +34,8 @@ ExecStart=/opt/z-way-server/z-way-server
 WantedBy=multi-user.target
 ```
 
-This configuration file is stored in folder **./install_systemd** 
-and can be installed with the script **./install_systemd.bash**.<br>
+This configuration file **z-way-server.service** 
+can be installed with the script **./install_systemd.bash**.<br>
 For more information on the service unit configuration refer to the 
 [Systemd Website](https://systemd.io/)
 and to 
