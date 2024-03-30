@@ -84,17 +84,22 @@ If both files, the Systemd service file and the SysVinit script, are present, th
 Systemd service always takes precedence and the SysVinit script is ignored, 
 regardless of whether it is enabled or disabled.
 
-Of course, this only applies to system starts and system stops, not to manual calls.
-
 My own tests have confirmed this. The z-way-server is started 
 only once at system boot, although all runlevel links for init.d are existing.
+
+Of course, this only applies to system starts and system stops, 
+not to manual calls. Invoking the SysVinit commands manually won't work properly
+together with Systemd.
 
 ## Changes in the SysVinit Script
 
 To solve all the problems with concurrend execution described above, at last I came to the following
-modification of my SysVinit script:
+modification in my SysVinit script:
 
 ```sh
+
+...
+
 SYSTEMD_CONFIG=/etc/systemd/system/$NAME.service
 
 case "$1" in
@@ -130,6 +135,9 @@ case "$1" in
         echo "done."
     fi
     ;;
+
+...
+
 ```
 
 If the Systemd service file doesn't exist, it works as normal.<br>
@@ -167,7 +175,7 @@ Group=root
 
 Environment=PATH=/bin:/usr/bin:/sbin:/usr/sbin
 WorkingDirectory=/opt/z-way-server
-ExecStartPre=/opt/z-way-server/automation/userModules/MxSystemd/sh/exam_coredump.bash
+ExecStartPre=-/opt/z-way-server/automation/userModules/MxSystemd/sh/exam_coredump.bash
 ExecStart=/opt/z-way-server/z-way-server
 Restart=on-failure
 RestartSec=2min
@@ -178,12 +186,12 @@ WantedBy=multi-user.target
 
 ### Installation
 
-1. install 2 shell packages, necessary for the core dump examination:<br>
+1. install 2 additional shell packages, necessary for the core dump examination:<br>
    `sudo apt install systemd-coredump`<br>
    `sudo apt install lz4`
-2. chose the target folder where the results
+2. choose the target folder where the results
    of the coredump examination shall be stored
-2. create a file name **params** by copying the file **params_template** and
+2. create a file named **params** by copying the file **params_template** and
    enter the name of the target folder.
 4. stop the z-way-server:<br>
    `sudo systemctl disable z-way-server`<br>
@@ -194,7 +202,7 @@ WantedBy=multi-user.target
    `sudo systemctl enable z-way-server`<br>
    `sudo systemctl start z-way-server`
 
-Note: The results files are stored with the current timestamp and are
+Note: The result files are stored with the current timestamp and are
 not removed automatically.
 
 
