@@ -154,7 +154,7 @@ SysVinit script with the updates.
 ## Automatic Restart after Failure with Examination of Core Dumps
 
 This example enhances the above described solution for
- automatic restarts after failures and
+ automatic restarts after failures and with
  an automatic examination of core dumps.
 
 It consists of
