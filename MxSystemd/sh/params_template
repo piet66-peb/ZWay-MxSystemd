@@ -6,11 +6,11 @@
 #h Purpose:      parameters for MxSystemd
 #h Project:      z-Way Homeserver
 #h Installation: rename the file params_template to params,
-#h               and enter your parameters
+#h               and enter your parameter EXAM_DIR
 #h
 #h-------------------------------------------------------------------------------
 
 # target directory for the coredump examination results:
 # default: current directory
-#export EXAM_DIR='<exam_dir>'
+export EXAM_DIR=
 

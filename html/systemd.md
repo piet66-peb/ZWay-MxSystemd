@@ -186,7 +186,7 @@ WantedBy=multi-user.target
 
 ### Installation
 
-1. install 2 additional shell packages, necessary for the core dump examination:<br>
+1. install 2 more shell packages, necessary for the core dump examination:<br>
    `sudo apt install systemd-coredump`<br>
    `sudo apt install lz4`
 2. choose the target folder where the results
