@@ -79,8 +79,8 @@ That's inconvenient. And it could cause problems if it's forgotten.
 
 ## Coexistence of Systemd with SysVinit
 
-in the [Systemd FAQ](https://systemd.io/FAQ/) it is said:<br>
-If both files, the Systemd service file and the SysVinit script, are present, the Systemd
+In the [Systemd FAQ](https://systemd.io/FAQ/) it is said:<br>
+If both files, the Systemd service file and the SysVinit script, are present, the
 Systemd service always takes precedence and the SysVinit script is ignored, 
 regardless of whether it is enabled or disabled.
 
