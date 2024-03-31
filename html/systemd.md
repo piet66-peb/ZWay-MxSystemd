@@ -154,7 +154,7 @@ SysVinit script with the updates.
 ## Automatic Restart after Failure with Examination of Core Dumps
 
 This example enhances the above described solution for
- automatic restarts after failures and with
+ automatic restarts after failures, with an email notification and with
  an automatic examination of core dumps.
 
 It consists of
@@ -205,4 +205,8 @@ WantedBy=multi-user.target
 Note: The result files are stored with the current timestamp and are
 not removed automatically.
 
-
+Note: In this solution the email notification and the examination of the core dump is
+made just before the restart. Another possibility is to use the **OnFailure=** feature
+together with an additional service unit,
+described for example in 
+[Getting Notification When systemd Service Fails](https://www.baeldung.com/linux/systemd-service-fail-notification).
