@@ -44,7 +44,7 @@ and to
 ## Installation of the Systemd Service File
 
 1. stop the z-way-server:<br>
-   `/etc/init.d/z-way-server stop`<br>
+   `sudo /etc/init.d/z-way-server stop`<br>
    don't delete the SysVinit script /etc/init.d/z-way-server !
 2. install the Systemd service file:<br>
    `./install_systemd.bash`
