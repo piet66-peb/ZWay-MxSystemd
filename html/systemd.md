@@ -143,7 +143,7 @@ case "$1" in
 If the Systemd service file doesn't exist, it works as normal.<br>
 If the Systemd service file exists, start and stop are redirected to Systemd 
 commands.
-An eventually declared automatic restart by Sytemd is disabled during stop.
+An eventually declared automatic restart by Systemd is disabled during stop.
 
 This SysVinit script is stored with name **config_z-way-server.replace** and can be installed with the script 
 **./install_init.d.bash**.
@@ -158,7 +158,7 @@ This example enhances the above described solution for
  an automatic examination of core dumps.
 
 It consists of
- an enhanced system service file
+ an enhanced Systemd service file
  and a bash script for the examination.
 
 ### The Systemd Service File
