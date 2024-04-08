@@ -78,35 +78,37 @@ function collect_data
 
 function notify
 {
-    logger -i "$1"
     pushd $BASEDIR >/dev/null 2>&1
+        current_state=`systemctl is-failed $SERVICE`
+        SUBJECT="$SERVICE state=$current_state"
+        CONTENT="examine core dump to \n   ${EXAM_DIR}/$COREDUMP_EXAM"
+        logger -i "$SUBJECT"
+
         if [ -e emailAccount.cfg ]
         then
-            ./sendEmail.bash "$1" "$2" &
+            ./sendEmail.bash "$SUBJECT" "$CONTENT"
         else
             echo 'create an emailAccount.cfg file to get a notification'
+            echo ''
         fi
     popd >/dev/null
-    echo ''
 } #notify
 
 #b Main
 #------
-current_state=`systemctl is-failed $SERVICE`
+[ -d "$EXAM_DIR" ] || mkdir -p "$EXAM_DIR"  
+
+#b send email
+#------------
 if [ "$MAIL_AFTER_FAILURE" == true ]
 then
-    #b send email
-    #------------
-    SUBJECT="$SERVICE state=$current_state"
-    CONTENT="examine core dump to \n   ${EXAM_DIR}/$COREDUMP_EXAM"
-    notify "$SUBJECT" "$CONTENT" >"$COREDUMP_EXAM"
+    notify >"$EXAM_DIR/$COREDUMP_EXAM" 2>&1
 fi
 
 #b examine core dump
 #-------------------
-[ -d "$EXAM_DIR" ] || mkdir -p "$EXAM_DIR"  
 pushd $EXAM_DIR >/dev/null 2>&1
-    collect_data >>"$COREDUMP_EXAM"
+    collect_data >>"$COREDUMP_EXAM" 2>&1
 popd >/dev/null
 exit 0
 

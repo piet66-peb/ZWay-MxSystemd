@@ -24,7 +24,7 @@
 #h Resources:    curl
 #h Platforms:    Linux
 #h Authors:      peb piet66
-#h Version:      V1.4 2024-03-28/peb
+#h Version:      V1.4 2024-04-08/peb
 #v History:      V1.0 2019-09-14/peb first version
 #h Copyright:    (C) piet66 2019
 #h
@@ -33,7 +33,7 @@
 #b Constants
 #-----------
 VERSION='V1.4'
-WRITTEN='2024-03-28/peb'
+WRITTEN='2024-04-08/peb'
 
 SIGINT=2
 SIGTERM=15
@@ -194,7 +194,7 @@ function build_mail_text
 
 function send_email
 {
-    C="curl -S --url smtps://$MAILHUB $AUTH_METHOD --user $AUTH_USER:$AUTH_PW --mail-from $FROM_ADDR --mail-rcpt $TO_ADDR --upload-file $MAIL_TEXT"
+    C="curl -Ss --url smtps://$MAILHUB $AUTH_METHOD --user $AUTH_USER:$AUTH_PW --mail-from $FROM_ADDR --mail-rcpt $TO_ADDR --upload-file $MAIL_TEXT"
     if [ ! -z "$COPY_ADDR" ]
     then
         C="$C --mail-rcpt $COPY_ADDR"

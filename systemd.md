@@ -213,7 +213,7 @@ WantedBy=multi-user.target
    of the coredump examination shall be stored
 2. create a file named **params** by copying the file **params_template** and
    enter the name of the target folder.<br>
-   if you want to be notified by an email:
+   if you want to be notified with an email:
    create a file named **emailAccount.cfg** by copying the file 
    **emailAccount_template.cfg** and enter your data.
 4. stop the z-way-server:<br>
