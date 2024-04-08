@@ -9,7 +9,7 @@ This project deals with the topic of how to migrate to the modern **Systemd**, a
 many current Linux distributions, to take advantage of its benefits.
 
 A detailed discussion of the pros and cons and the necessary modules can be found
-here:  [Using Z-Way with Systemd](./html/systemd.md).
+here:  [Using Z-Way with Systemd](./systemd.md).
 
 ## Prerequisites
 
@@ -21,7 +21,7 @@ Download the package **MxSystemd** and store it into the Z-Way folder
 **userModules**.
 Make the bash scripts executable, if they aren't (`sudo chmod a+x *.bash`)
 
-For installation of the modules refer to [Using Z-Way with Systemd](./html/systemd.md).
+For installation of the modules refer to [Using Z-Way with Systemd](./systemd.md).
 
 ## License: MIT
 

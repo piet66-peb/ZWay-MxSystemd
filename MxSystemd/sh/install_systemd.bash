@@ -12,7 +12,7 @@
 #h Resources:    
 #h Platforms:    Linux
 #h Authors:      peb piet66
-#h Version:      V1.0.0 2024-03-26/peb
+#h Version:      V1.0.0 2024-04-08/peb
 #v History:      V1.0.0 2024-02-24/peb first version
 #h Copyright:    (C) piet66 2024
 #h
@@ -22,19 +22,27 @@
 #-----------
 MODULE='install_systemd.bash'
 VERSION='V1.0.0'
-WRITTEN='2024-03-26/peb'
+WRITTEN='2024-04-08/peb'
 
 #b Variables
 #-----------
+t_dir=/etc/systemd/system
 s=z-way-server
-t=/etc/systemd/system
-r="$1"
-[ "$r" == "" ] && r="$s.service"
+
+r_file="$1"
+[ "$r_file" == "" ] && r_file="$s.service"
+
+t_file="$r_file"
+extension="${t_file##*.}"
+if [ $extension != 'service' ]
+then
+    t_file="$s.service"
+fi
 
 #b Commands
 #----------
-echo copy configuration file $r to $t/$s.service
-sudo cp `dirname $0`/$r $t/$s.service
+echo sudo cp `dirname $0`/$r_file $t_dir/$t_file
+sudo cp `dirname $0`/$r_file $t_dir/$t_file
 sudo systemctl daemon-reload
 
 #sudo systemctl enable $s

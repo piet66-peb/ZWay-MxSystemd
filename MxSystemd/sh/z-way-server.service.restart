@@ -2,6 +2,7 @@
 
 [Unit]
 Description=Z-Way Server
+OnFailure=exam_coredump.service
 
 [Service]
 User=root
@@ -9,7 +10,6 @@ Group=root
 
 Environment=PATH=/bin:/usr/bin:/sbin:/usr/sbin
 WorkingDirectory=/opt/z-way-server
-ExecStartPre=-/opt/z-way-server/automation/userModules/MxSystemd/sh/exam_coredump.bash
 ExecStart=/opt/z-way-server/z-way-server
 
 Restart=on-failure

@@ -12,5 +12,9 @@
 
 # target directory for the coredump examination results:
 # default: current directory
-export EXAM_DIR=
+EXAM_DIR=
+
+# if to send an email after failure:
+# (an emailAccount.cfg file is necessary)
+MAIL_AFTER_FAILURE=true
 

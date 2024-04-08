@@ -3,8 +3,7 @@
 #h
 #h Name:         exam_coredump.bash
 #h Type:         Linux shell script
-#h Purpose:      examines the coredump, after z-way-server-failed and before it is
-#h               restarted
+#h Purpose:      examines the coredump, after z-way-server-failed
 #h Project:      
 #h Installation: edit and install systemd service file z-way-server.service.restart
 #h Usage:        [sudo] <dir>/exam_coredump.bash
@@ -14,7 +13,7 @@
 #h Resources:    coredumpctl (systemd-coredump), lz4
 #h Platforms:    Linux with systemd/systemctl
 #h Authors:      peb piet66
-#h Version:      V1.0.0 2024-03-30/peb
+#h Version:      V1.0.0 2024-04-08/peb
 #v History:      V1.0.0 2024-03-26/peb first version
 #h Copyright:    (C) piet66 2024
 #h
@@ -24,7 +23,7 @@
 #-----------
 MODULE='exam_coredump.bash'
 VERSION='V1.0.0'
-WRITTEN='2024-03-30/peb'
+WRITTEN='2024-04-08/peb'
 
 #b Variables
 #-----------
@@ -94,26 +93,20 @@ function notify
 #b Main
 #------
 current_state=`systemctl is-failed $SERVICE`
-if [ $? -eq 0 ]
+if [ "$MAIL_AFTER_FAILURE" == true ]
 then
     #b send email
     #------------
-    SUBJECT="$SERVICE is failed - restarting..."
+    SUBJECT="$SERVICE state=$current_state"
     CONTENT="examine core dump to \n   ${EXAM_DIR}/$COREDUMP_EXAM"
     notify "$SUBJECT" "$CONTENT" >"$COREDUMP_EXAM"
-
-    #b examine core dump
-    #-------------------
-    [ -d "$EXAM_DIR" ] || mkdir -p "$EXAM_DIR"  
-    pushd $EXAM_DIR >/dev/null 2>&1
-        collect_data >>"$COREDUMP_EXAM"
-    popd >/dev/null
-else
-    #b send email
-    #------------
-    SUBJECT="$SERVICE($current_state) starting..."
-    CONTENT=""
-    notify "$SUBJECT" "$CONTENT"
 fi
+
+#b examine core dump
+#-------------------
+[ -d "$EXAM_DIR" ] || mkdir -p "$EXAM_DIR"  
+pushd $EXAM_DIR >/dev/null 2>&1
+    collect_data >>"$COREDUMP_EXAM"
+popd >/dev/null
 exit 0
 

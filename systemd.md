@@ -157,17 +157,17 @@ This example enhances the above described solution for
  automatic restarts after failures, with an email notification and with
  an automatic examination of core dumps.
 
-It consists of
- an enhanced Systemd service file
- and a bash script for the examination.
+It consists of an enhanced Systemd service file,
+a bash script for the examination and a System service file for that bash script.
 
-### The Systemd Service File
+### The Systemd Service Files
 
 ```sh
 # z-way-server.service: systemd service file
 
 [Unit]
 Description=Z-Way Server
+OnFailure=exam_coredump.service
 
 [Service]
 User=root
@@ -175,13 +175,33 @@ Group=root
 
 Environment=PATH=/bin:/usr/bin:/sbin:/usr/sbin
 WorkingDirectory=/opt/z-way-server
-ExecStartPre=-/opt/z-way-server/automation/userModules/MxSystemd/sh/exam_coredump.bash
 ExecStart=/opt/z-way-server/z-way-server
+
 Restart=on-failure
 RestartSec=2min
 
 [Install]
 WantedBy=multi-user.target
+```
+
+```sh
+# exam_coredump.service: systemd configuration file
+
+[Unit]
+Description=call exam_coredump.bash after Z-Way Server failure
+
+[Service]
+User=root
+Group=root
+
+Type=oneshot
+Environment=PATH=/bin:/usr/bin:/sbin:/usr/sbin
+WorkingDirectory=/opt/z-way-server/automation/userModules/MxSystemd/sh
+ExecStart=/opt/z-way-server/automation/userModules/MxSystemd/sh/exam_coredump.bash
+
+[Install]
+WantedBy=multi-user.target
+
 ```
 
 ### Installation
@@ -192,21 +212,19 @@ WantedBy=multi-user.target
 2. choose the target folder where the results
    of the coredump examination shall be stored
 2. create a file named **params** by copying the file **params_template** and
-   enter the name of the target folder.
+   enter the name of the target folder.<br>
+   if you want to be notified by an email:
+   create a file named **emailAccount.cfg** by copying the file 
+   **emailAccount_template.cfg** and enter your data.
 4. stop the z-way-server:<br>
    `sudo systemctl disable z-way-server`<br>
    `sudo systemctl stop z-way-server`
-5. install the Systemd service file:<br>
-   `./install_systemd.bash z-way-server.service.restart`
+5. install the two Systemd service files:<br>
+   `./install_systemd.bash z-way-server.service.restart`<br>
+   `./install_systemd.bash exam_coredump.service`
 6. start the z-way-server:<br>
    `sudo systemctl enable z-way-server`<br>
    `sudo systemctl start z-way-server`
 
 Note: The result files are stored with the current timestamp and are
 not removed automatically.
-
-Note: In this solution the email notification and the examination of the core dump is
-made just before the restart. Another possibility is to use the **OnFailure=** feature
-together with an additional service unit,
-described for example in 
-[Getting Notification When systemd Service Fails](https://www.baeldung.com/linux/systemd-service-fail-notification).

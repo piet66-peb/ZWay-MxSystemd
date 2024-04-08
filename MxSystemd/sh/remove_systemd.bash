@@ -12,7 +12,7 @@
 #h Resources:    
 #h Platforms:    Linux
 #h Authors:      peb piet66
-#h Version:      V1.0.0 2024-03-26/peb
+#h Version:      V1.0.0 2024-04-02/peb
 #v History:      V1.0.0 2024-02-24/peb first version
 #h Copyright:    (C) piet66 2024
 #h
@@ -22,7 +22,7 @@
 #-----------
 MODULE='remove_systemd.bash'
 VERSION='V1.0.0'
-WRITTEN='2024-03-26/peb'
+WRITTEN='2024-04-02/peb'
 
 #b Variables
 #-----------
@@ -41,11 +41,11 @@ echo -e '\n'sudo rm -f /etc/init.d/$s
 sudo rm -f /etc/init.d/$s
 
 echo -e '\n'sudo rm -f /etc/systemd/system/$s.service
-sudo rm -f /etc/systemd/system/$s.service
+sudo rm -f /etc/systemd/system/*$s.service
 
 # and symlinks that might be related
 echo -e '\n'sudo rm -f /usr/lib/systemd/system/$s.service
-sudo rm -f /usr/lib/systemd/system/$s.service
+sudo rm -f /usr/lib/systemd/system/*$s.service
 
 echo -e '\n'sudo systemctl daemon-reload
 sudo systemctl daemon-reload

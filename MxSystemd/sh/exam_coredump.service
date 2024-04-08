@@ -1,0 +1,17 @@
+# exam_coredump.service: systemd configuration file
+
+[Unit]
+Description=call exam_coredump.bash after Z-Way Server failure
+
+[Service]
+User=root
+Group=root
+
+Type=oneshot
+Environment=PATH=/bin:/usr/bin:/sbin:/usr/sbin
+WorkingDirectory=/opt/z-way-server/automation/userModules/MxSystemd/sh
+ExecStart=/opt/z-way-server/automation/userModules/MxSystemd/sh/exam_coredump.bash
+
+[Install]
+WantedBy=multi-user.target
+
