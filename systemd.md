@@ -1,7 +1,7 @@
 
-# Using Z-Way with Systemd
+# Using Z-Way with Systemd Service Manager
 
-Using the Systemd mechanism you can take advantage of some benefits, for example:
+Using the Systemd service manager you can take advantage of some benefits, for example:
 - automatic restart on failures
 - an exit code/ reason
 - the Systemd coredump handling
@@ -79,10 +79,10 @@ That's inconvenient. And it could cause problems if it's forgotten.
 
 ## Coexistence of Systemd with SysVinit
 
-In the [Systemd FAQ](https://systemd.io/FAQ/) it is said:<br>
 If both files, the Systemd service file and the SysVinit script, are present, the
 Systemd service always takes precedence and the SysVinit script is ignored, 
-regardless of whether it is enabled or disabled.
+regardless of whether it is enabled or disabled
+([Systemd FAQ](https://systemd.io/FAQ)).
 
 My own tests have confirmed this. The z-way-server is started 
 only once at system boot, although all runlevel links for init.d are existing.
@@ -228,3 +228,7 @@ WantedBy=multi-user.target
 
 Note: The result files are stored with the current timestamp and are
 not removed automatically.
+
+Note: The notification email is sent with a simple bash script. It does not
+work for email services that require special authentication 
+(for example like Gmail).

@@ -5,8 +5,8 @@
 
 Z-Way uses SysVinit as start/ stop mechanism.
 
-This project deals with the topic of how to migrate to the modern **Systemd**, availabe in
-many current Linux distributions, to take advantage of its benefits.
+This project deals with the topic of how to migrate to the modern **Systemd** service manager,
+ availabe in many current Linux distributions, to take advantage of its benefits.
 
 A detailed discussion of the pros and cons and the necessary modules can be found
 here:  [Using Z-Way with Systemd](./systemd.md).
