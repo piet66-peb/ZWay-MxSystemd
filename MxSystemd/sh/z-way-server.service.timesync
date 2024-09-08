@@ -1,7 +1,14 @@
 # z-way-server.service: systemd configuration file
+# waits for time synchronization
+# needs: - use systemd-timesyncd.service
+#          sudo systemctl status systemd-timesyncd.service --no-pager
+#          sudo systemctl enable systemd-time-wait-sync.service
+#          sudo systemctl start systemd-time-wait-sync.service
 
 [Unit]
 Description=z-way-server.service: Z-Way
+Wants=time-sync.target
+After=time-sync.target
 OnFailure=exam_coredump.service
 
 [Service]

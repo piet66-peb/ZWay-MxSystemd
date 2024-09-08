@@ -1,4 +1,4 @@
-/*** MxSystemd V1.0.0 2024-03-27 Z-Way HA module *********************************/
+/*** MxSystemd V1.2.0 2024-09-08 Z-Way HA module *********************************/
 
 //h-------------------------------------------------------------------------------
 //h
@@ -14,7 +14,7 @@
 //h Resources:    AutomationModule
 //h Issues:       
 //h Authors:      peb Peter M. Ebert
-//h Version:      V1.0.0 2024-03-27/peb
+//h Version:      V1.2.0 2024-09-08/peb
 //v History:      V1.0.0 2024-03-27/peb first version
 //h Copyright:    (C) Peter M. Ebert 2019
 //h License:      http://opensource.org/licenses/MIT
@@ -35,8 +35,8 @@ function MxSystemd(id, controller) {
     MxSystemd.super_.call(this, id, controller);
 
     this.MODULE='index.js';
-    this.VERSION='V1.0.0';
-    this.WRITTEN='2024-03-27/peb';
+    this.VERSION='V1.2.0';
+    this.WRITTEN='2024-09-08/peb';
 }
 inherits(MxSystemd, AutomationModule);
 _module = MxSystemd;

@@ -1,7 +1,7 @@
 # exam_coredump.service: systemd configuration file
 
 [Unit]
-Description=call exam_coredump.bash after Z-Way Server failure
+Description=exam_coredump.service: examine core dump after z-way-server failure
 
 [Service]
 User=root

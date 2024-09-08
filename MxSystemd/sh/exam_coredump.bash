@@ -6,14 +6,14 @@
 #h Purpose:      examines the coredump, after z-way-server-failed
 #h Project:      
 #h Installation: edit and install systemd service file z-way-server.service.restart
-#h Usage:        [sudo] <dir>/exam_coredump.bash
+#h Usage:        sudo <dir>/exam_coredump.bash
 #h Result:       
 #h Examples:     
 #h Outline:      
 #h Resources:    coredumpctl (systemd-coredump), lz4
 #h Platforms:    Linux with systemd/systemctl
 #h Authors:      peb piet66
-#h Version:      V1.0.0 2024-04-08/peb
+#h Version:      V1.0.0 2024-06-17/peb
 #v History:      V1.0.0 2024-03-26/peb first version
 #h Copyright:    (C) piet66 2024
 #h
@@ -23,12 +23,14 @@
 #-----------
 MODULE='exam_coredump.bash'
 VERSION='V1.0.0'
-WRITTEN='2024-04-08/peb'
+WRITTEN='2024-06-17/peb'
 
 #b Variables
 #-----------
 SERVICE=z-way-server
-BASEDIR=`dirname $0`
+pushd `dirname $0` >/dev/null 2>&1
+    BASEDIR=`pwd`
+popd >/dev/null 2>&1
 PARAMS=${BASEDIR}/params
 [ -e "$PARAMS" ] && . "$PARAMS"
 
@@ -39,6 +41,24 @@ COREDUMP_EXAM="${currtime}_coredump_exam"
 
 #b Functions
 #-----------
+function notify
+{
+    echo email notificatin
+    pushd $BASEDIR >/dev/null 2>&1
+        current_state=`systemctl is-failed $SERVICE`
+        SUBJECT="$SERVICE state=$current_state"
+        CONTENT="examine core dump to \n   ${EXAM_DIR}/$COREDUMP_EXAM"
+        logger -i "$SUBJECT"
+
+        if [ -e emailAccount.cfg ]
+        then
+            ./sendEmail.bash "$SUBJECT" "$CONTENT"
+        else
+            echo 'create an emailAccount.cfg file to get a notification'
+        fi
+    popd >/dev/null
+} #notify
+
 function collect_data
 {
     echo -e "\n===== status after failure:\n"
@@ -74,41 +94,31 @@ function collect_data
 
     echo gdb $EXECUTABLE $COREDUMP --batch --eval-command="bt full"
     gdb $EXECUTABLE $COREDUMP --batch --eval-command="bt full" 2>/dev/null
+    echo ''
 } #collect_data
-
-function notify
-{
-    pushd $BASEDIR >/dev/null 2>&1
-        current_state=`systemctl is-failed $SERVICE`
-        SUBJECT="$SERVICE state=$current_state"
-        CONTENT="examine core dump to \n   ${EXAM_DIR}/$COREDUMP_EXAM"
-        logger -i "$SUBJECT"
-
-        if [ -e emailAccount.cfg ]
-        then
-            ./sendEmail.bash "$SUBJECT" "$CONTENT"
-        else
-            echo 'create an emailAccount.cfg file to get a notification'
-            echo ''
-        fi
-    popd >/dev/null
-} #notify
 
 #b Main
 #------
 [ -d "$EXAM_DIR" ] || mkdir -p "$EXAM_DIR"  
-
-#b send email
-#------------
-if [ "$MAIL_AFTER_FAILURE" == true ]
-then
-    notify >"$EXAM_DIR/$COREDUMP_EXAM" 2>&1
-fi
-
-#b examine core dump
-#-------------------
 pushd $EXAM_DIR >/dev/null 2>&1
+
+    echo '' >"$COREDUMP_EXAM" 2>&1
+    logger -is "exam_coredump-bash started..." >>$COREDUMP_EXAM 2>&1
+    echo '' >>"$COREDUMP_EXAM" 2>&1
+
+    #b send email
+    #------------
+    if [ "$MAIL_AFTER_FAILURE" == true ]
+    then
+        notify >>"$COREDUMP_EXAM" 2>&1
+    fi
+
+    #b examine core dump
+    #-------------------
     collect_data >>"$COREDUMP_EXAM" 2>&1
+
+    logger -is "exam_coredump-bash finished..." >>$COREDUMP_EXAM 2>&1
+
 popd >/dev/null
 exit 0
 

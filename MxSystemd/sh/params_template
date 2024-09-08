@@ -6,15 +6,16 @@
 #h Purpose:      parameters for MxSystemd
 #h Project:      z-Way Homeserver
 #h Installation: rename the file params_template to params,
-#h               and enter your parameter EXAM_DIR
+#h               and enter your parameter
 #h
 #h-------------------------------------------------------------------------------
 
 # target directory for the coredump examination results:
 # default: current directory
-EXAM_DIR=
+#EXAM_DIR='/opt/coredumps'
 
 # if to send an email after failure:
 # (an emailAccount.cfg file is necessary)
-MAIL_AFTER_FAILURE=true
+# default=false
+#MAIL_AFTER_FAILURE=true
 

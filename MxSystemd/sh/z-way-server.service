@@ -1,7 +1,7 @@
 # z-way-server.service: systemd configuration file
 
 [Unit]
-Description=Z-Way Server
+Description=z-way-server.service: Z-Way Server
 
 [Service]
 User=root

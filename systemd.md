@@ -12,7 +12,7 @@ need to be taken into account.
 
 ## The Systemd Service File
 
-A working configuration file **z-way-server.service** for Z-Way:
+A simple working configuration file **z-way-server.service** for Z-Way:
 
 ```sh
 # z-way-server.service: systemd service file
@@ -77,7 +77,7 @@ you would have to do some things manually on every update:
 
 That's inconvenient. And it could cause problems if it's forgotten.
 
-## Coexistence of Systemd with SysVinit
+## Systemd Manager Behavior: Coexistence of Systemd with SysVinit
 
 If both files, the Systemd service file and the SysVinit script, are present, the
 Systemd service always takes precedence and the SysVinit script is ignored, 
@@ -140,10 +140,10 @@ case "$1" in
 
 ```
 
-If the Systemd service file doesn't exist, it works as normal.<br>
+If the Systemd service file doesn't exist, all SysV commands work as normal.<br>
 If the Systemd service file exists, start and stop are redirected to Systemd 
 commands.
-An eventually declared automatic restart by Systemd is disabled during stop.
+An eventually declared automatic restart by Systemd is disabled after a manual stop.
 
 This SysVinit script is stored with name **config_z-way-server.replace** and can be installed with the script 
 **./install_init.d.bash**.
@@ -232,3 +232,64 @@ not removed automatically.
 Note: The notification email is sent with a simple bash script. It does not
 work for email services that require special authentication 
 (for example like Gmail).
+
+## Waiting for Time Synchonization
+
+The Raspberry Pi does not have a hardware clock. Normally this is not a 
+problem. However, it is ugly if the timestamps are temporarily incorrect 
+after a boot (e.g. in the log file).
+
+The following method can be used to delay the start of z-way-server until 
+time synchronization has been completed.
+
+
+### The Changed Systemd Service File
+
+```sh
+# z-way-server.service: systemd service file
+
+[Unit]
+Description=z-way-server.service: Z-Way
+Wants=time-sync.target
+After=time-sync.target
+OnFailure=exam_coredump.service
+
+[Service]
+User=root
+Group=root
+
+Environment=PATH=/bin:/usr/bin:/sbin:/usr/sbin
+WorkingDirectory=/opt/z-way-server
+ExecStart=/opt/z-way-server/z-way-server
+
+Restart=on-failure
+RestartSec=2min
+
+[Install]
+WantedBy=multi-user.target
+```
+
+### Installation
+
+1. check the state of the timesyncd service:<br>
+   `sudo systemctl status systemd-timesyncd.service --no-pager`<br>
+   `timedatectl status`
+2. install and start the timesyncd service, if not yet done:<br>
+   `sudo systemctl enable systemd-time-wait-sync.service`<br>
+   `sudo systemctl start systemd-time-wait-sync.service`
+3. replace the Systemd service file:<br>
+   `./install_systemd.bash z-way-server.service.timesync`<br>
+
+Note: In file /etc/systemd/timesyncd.conf it's possible to define a local
+time server.
+
+Note: Another time service software may have to be terminated and 
+deactivated (e.g. ntp, chrony, ...).
+
+### timedatectl Commands
+
+`systemctl status systemd-timesyncd.service --no-pager`<br>
+`timedatectl status`<br>
+`timedatectl timesync-status`<br>
+`timedatectl show-timesync`
+
