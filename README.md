@@ -17,7 +17,7 @@ Z-Way.
 
 ## Installation
 
-Download the package **MxSystemd** and store it into the Z-Way folder 
+Download the the zip file, extract and store **MxSystemd** into the Z-Way folder 
 **userModules**.
 Make the bash scripts executable, if they aren't (`sudo chmod a+x *.bash`)
 

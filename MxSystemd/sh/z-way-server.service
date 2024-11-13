@@ -9,6 +9,10 @@ Group=root
 Environment=PATH=/bin:/usr/bin:/sbin:/usr/sbin
 WorkingDirectory=/opt/z-way-server
 ExecStart=/opt/z-way-server/z-way-server
+
+#default:90 secs
+TimeoutStopSec=2min
+
 #Restart=on-failure
 #RestartSec=2min
 

@@ -13,7 +13,7 @@
 #h Resources:    coredumpctl (systemd-coredump), lz4
 #h Platforms:    Linux with systemd/systemctl
 #h Authors:      peb piet66
-#h Version:      V1.0.0 2024-06-17/peb
+#h Version:      V1.0.0 2024-11-03/peb
 #v History:      V1.0.0 2024-03-26/peb first version
 #h Copyright:    (C) piet66 2024
 #h
@@ -23,7 +23,7 @@
 #-----------
 MODULE='exam_coredump.bash'
 VERSION='V1.0.0'
-WRITTEN='2024-06-17/peb'
+WRITTEN='2024-11-03/peb'
 
 #b Variables
 #-----------
@@ -43,7 +43,7 @@ COREDUMP_EXAM="${currtime}_coredump_exam"
 #-----------
 function notify
 {
-    echo email notificatin
+    echo email notification
     pushd $BASEDIR >/dev/null 2>&1
         current_state=`systemctl is-failed $SERVICE`
         SUBJECT="$SERVICE state=$current_state"

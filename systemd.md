@@ -221,7 +221,8 @@ WantedBy=multi-user.target
    `sudo systemctl stop z-way-server`
 5. install the two Systemd service files:<br>
    `./install_systemd.bash z-way-server.service.restart`<br>
-   `./install_systemd.bash exam_coredump.service`
+   `./install_systemd.bash exam_coredump.service`<br>
+   `sudo systemctl enable exam_coredump.service`
 6. start the z-way-server:<br>
    `sudo systemctl enable z-way-server`<br>
    `sudo systemctl start z-way-server`

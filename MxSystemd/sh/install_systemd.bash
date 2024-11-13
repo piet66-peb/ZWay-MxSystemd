@@ -12,7 +12,7 @@
 #h Resources:    
 #h Platforms:    Linux
 #h Authors:      peb piet66
-#h Version:      V1.0.0 2024-04-08/peb
+#h Version:      V1.0.0 2024-10-21/peb
 #v History:      V1.0.0 2024-02-24/peb first version
 #h Copyright:    (C) piet66 2024
 #h
@@ -22,7 +22,7 @@
 #-----------
 MODULE='install_systemd.bash'
 VERSION='V1.0.0'
-WRITTEN='2024-04-08/peb'
+WRITTEN='2024-10-21/peb'
 
 #b Variables
 #-----------
@@ -43,6 +43,8 @@ fi
 #----------
 echo sudo cp `dirname $0`/$r_file $t_dir/$t_file
 sudo cp `dirname $0`/$r_file $t_dir/$t_file
+
+echo sudo systemctl daemon-reload
 sudo systemctl daemon-reload
 
 #sudo systemctl enable $s
