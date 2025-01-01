@@ -27,6 +27,7 @@ Group=root
 Environment=PATH=/bin:/usr/bin:/sbin:/usr/sbin
 WorkingDirectory=/opt/z-way-server
 ExecStart=/opt/z-way-server/z-way-server
+
 #Restart=always
 #RestartSec=2min
 
@@ -154,11 +155,13 @@ SysVinit script with the updates.
 ## Automatic Restart after Failure with Examination of Core Dumps
 
 This example enhances the above described solution for
- automatic restarts after failures, with an email notification and with
- an automatic examination of core dumps.
+ an automatic examination of core dumps after failures, 
+ with an email notification
+ and automatic restart.
 
 It consists of an enhanced Systemd service file,
-a bash script for the examination and a System service file for that bash script.
+a bash script for the examination and the restart and a 
+System service file for that bash script.
 
 ### The Systemd Service Files
 
@@ -177,8 +180,8 @@ Environment=PATH=/bin:/usr/bin:/sbin:/usr/sbin
 WorkingDirectory=/opt/z-way-server
 ExecStart=/opt/z-way-server/z-way-server
 
-Restart=on-failure
-RestartSec=2min
+#Restart=on-failure     #conflicts with OnFailure
+#RestartSec=2min
 
 [Install]
 WantedBy=multi-user.target
@@ -222,17 +225,18 @@ WantedBy=multi-user.target
 5. install the two Systemd service files:<br>
    `./install_systemd.bash z-way-server.service.restart`<br>
    `./install_systemd.bash exam_coredump.service`<br>
-   `sudo systemctl enable exam_coredump.service`
 6. start the z-way-server:<br>
    `sudo systemctl enable z-way-server`<br>
    `sudo systemctl start z-way-server`
 
-Note: The result files are stored with the current timestamp and are
-not removed automatically.
+Note: The result files are stored with the current timestamp and are not 
+automatically removed.
 
-Note: The notification email is sent with a simple bash script. It does not
-work for email services that require special authentication 
-(for example like Gmail).
+Note: The notification email is sent using a simple bash script. It will 
+not work for email services that require special authentication (e.g. Gmail).
+
+Note: To avoid loops on static failures, the service is only restarted once 
+per 5 minutes.
 
 ## Waiting for Time Synchonization
 
@@ -263,8 +267,8 @@ Environment=PATH=/bin:/usr/bin:/sbin:/usr/sbin
 WorkingDirectory=/opt/z-way-server
 ExecStart=/opt/z-way-server/z-way-server
 
-Restart=on-failure
-RestartSec=2min
+#Restart=on-failure     #conflicts with OnFailure
+#RestartSec=2min
 
 [Install]
 WantedBy=multi-user.target

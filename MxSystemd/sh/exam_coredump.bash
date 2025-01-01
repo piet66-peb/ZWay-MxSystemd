@@ -13,7 +13,7 @@
 #h Resources:    coredumpctl (systemd-coredump), lz4
 #h Platforms:    Linux with systemd/systemctl
 #h Authors:      peb piet66
-#h Version:      V1.0.0 2024-11-03/peb
+#h Version:      V1.0.0 2024-11-18/peb
 #v History:      V1.0.0 2024-03-26/peb first version
 #h Copyright:    (C) piet66 2024
 #h
@@ -23,7 +23,7 @@
 #-----------
 MODULE='exam_coredump.bash'
 VERSION='V1.0.0'
-WRITTEN='2024-11-03/peb'
+WRITTEN='2024-11-18/peb'
 
 #b Variables
 #-----------
@@ -117,7 +117,36 @@ pushd $EXAM_DIR >/dev/null 2>&1
     #-------------------
     collect_data >>"$COREDUMP_EXAM" 2>&1
 
-    logger -is "exam_coredump-bash finished..." >>$COREDUMP_EXAM 2>&1
+    #b at last restart z-way-server if it is not running
+    #---------------------------------------------------
+    procid=`pidof $SERVICE`
+    if [ $? -ne 0 ]
+    then
+        do_restart=true
+        ts_curr_secs=`date +"%s"`
+        f=last_restart
+        comp_minutes=5
+        if [ -e $f ]
+        then
+            ts_last_secs=`cat $f`
+            comp_secs=$(( comp_minutes * 60 + $ts_last_secs ))
+            if [ $ts_curr_secs -le $comp_secs ]
+            then
+                do_restart=false
+                ts_user=`date -d @$ts_last_secs "+%Y-%m-%d %H:%M"`
+                logger -is "last restart of $SERVICE: $ts_user" >>$COREDUMP_EXAM 2>&1
+            fi
+        fi
+
+        if [ $do_restart == true ]
+        then
+            logger -is "starting $SERVICE..." >>$COREDUMP_EXAM 2>&1
+            systemctl start $SERVICE
+            echo $ts_curr_secs >$f
+        fi
+    fi
+
+    logger -is "exam_coredump-bash finished." >>$COREDUMP_EXAM 2>&1
 
 popd >/dev/null
 exit 0

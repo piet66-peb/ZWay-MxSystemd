@@ -14,8 +14,8 @@ ExecStart=/opt/z-way-server/z-way-server
 
 TimeoutStopSec=2min
 
-Restart=on-failure
-RestartSec=2min
+#Restart=on-failure     #conflicts with OnFailure
+#RestartSec=2min
 
 [Install]
 WantedBy=multi-user.target
