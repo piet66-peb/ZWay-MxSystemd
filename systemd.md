@@ -200,7 +200,8 @@ Group=root
 Type=oneshot
 Environment=PATH=/bin:/usr/bin:/sbin:/usr/sbin
 WorkingDirectory=/opt/z-way-server/automation/userModules/MxSystemd/sh
-ExecStart=/opt/z-way-server/automation/userModules/MxSystemd/sh/exam_coredump.bash
+#start with delay, cause the new coredump is not yet written
+ExecStart=/bin/sh -c 'echo /opt/z-way-server/automation/userModules/MxSystemd/sh/exam_coredump.bash | at now + 5 min'
 
 [Install]
 WantedBy=multi-user.target
@@ -209,9 +210,10 @@ WantedBy=multi-user.target
 
 ### Installation
 
-1. install 2 more shell packages, necessary for the core dump examination:<br>
+1. install 3 more shell packages, necessary for the core dump examination:<br>
    `sudo apt install systemd-coredump`<br>
-   `sudo apt install lz4`
+   `sudo apt install lz4`<br>
+   `sudo apt-get install at`
 2. choose the target folder where the results
    of the coredump examination shall be stored
 2. create a file named **params** by copying the file **params_template** and

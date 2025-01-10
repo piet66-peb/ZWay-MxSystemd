@@ -10,7 +10,8 @@ Group=root
 Type=oneshot
 Environment=PATH=/bin:/usr/bin:/sbin:/usr/sbin
 WorkingDirectory=/opt/z-way-server/automation/userModules/MxSystemd/sh
-ExecStart=/opt/z-way-server/automation/userModules/MxSystemd/sh/exam_coredump.bash
+#start with delay, cause the new coredump is not yet written
+ExecStart=/bin/sh -c 'echo /opt/z-way-server/automation/userModules/MxSystemd/sh/exam_coredump.bash | at now + 5 min'
 
 [Install]
 WantedBy=multi-user.target
