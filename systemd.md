@@ -10,7 +10,7 @@ But to run Z-Way with the Systemd startup mechanism, several things
 need to be taken into account.
 
 
-## The Systemd Service File
+## 1. The Systemd Service File
 
 A simple working configuration file **z-way-server.service** for Z-Way:
 
@@ -42,7 +42,7 @@ For more information on the service unit configuration refer to the
 and to 
 [Service unit configuration](http://0pointer.de/public/systemd-man/systemd.service.html)
 
-## Installation of the Systemd Service File
+### Installation of the Systemd Service File
 
 1. stop the z-way-server:<br>
    `sudo /etc/init.d/z-way-server stop`<br>
@@ -53,7 +53,7 @@ and to
    `sudo systemctl enable z-way-server`<br>
    `sudo systemctl start z-way-server`
 
-## The Behavior of Z-Way
+## 2. The Behavior of Z-Way
 
 Z-Way still uses the SysVinit start-stop mechanism in init.d. 
 Especially the behavior on updates has to be considered:
@@ -78,7 +78,7 @@ you would have to do some things manually on every update:
 
 That's inconvenient. And it could cause problems if it's forgotten.
 
-## Systemd Manager Behavior: Coexistence of Systemd with SysVinit
+## 3. Systemd Manager Behavior: Coexistence of Systemd with SysVinit
 
 If both files, the Systemd service file and the SysVinit script, are present, the
 Systemd service always takes precedence and the SysVinit script is ignored, 
@@ -92,7 +92,7 @@ Of course, this only applies to system starts and system stops,
 not to manual calls. Invoking the SysVinit commands manually won't work properly
 together with Systemd.
 
-## Changes in the SysVinit Script
+## 4. Changes in the SysVinit Script
 
 To solve all the problems with concurrend execution described above, at last I came to the following
 modification in my SysVinit script:
@@ -152,7 +152,7 @@ This SysVinit script is stored with name **config_z-way-server.replace** and can
 This change will not be removed by Z-Way. Z-Way doesn't overwrite the 
 SysVinit script with the updates.
 
-## Automatic Restart after Failure with Examination of Core Dumps
+## 5. Automatic Restart after Failure with Examination of Core Dumps
 
 This example enhances the above described solution for
  an automatic examination of core dumps after failures, 
@@ -240,7 +240,7 @@ not work for email services that require special authentication (e.g. Gmail).
 Note: To avoid loops on static failures, the service is only restarted once 
 per 5 minutes.
 
-## Waiting for Time Synchonization
+## 6. Waiting for Time Synchonization
 
 The Raspberry Pi does not have a hardware clock. Normally this is not a 
 problem. However, it is ugly if the timestamps are temporarily incorrect 
