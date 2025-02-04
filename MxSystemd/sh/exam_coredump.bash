@@ -14,8 +14,9 @@
 #h Resources:    coredumpctl (systemd-coredump), lz4
 #h Platforms:    Linux with systemd/systemctl
 #h Authors:      peb piet66
-#h Version:      V1.1.0 2025-01-10/peb
+#h Version:      V1.2.0 2025-02-04/peb
 #v History:      V1.0.0 2024-03-26/peb first version
+#v               V1.2.0 2025-02-04/peb [+]z-way version added
 #h Copyright:    (C) piet66 2024
 #h
 #h-------------------------------------------------------------------------------
@@ -23,8 +24,8 @@
 #b Constants
 #-----------
 MODULE='exam_coredump.bash'
-VERSION='V1.1.0'
-WRITTEN='2025-01-10/peb'
+VERSION='V1.2.0'
+WRITTEN='2025-02-04/peb'
 
 #b Variables
 #-----------
@@ -62,6 +63,10 @@ function notify
 
 function collect_data
 {
+    echo -e "\n===== versions and system data:\n"
+    $BASEDIR/zway_system.bash
+    echo ''
+
     echo -e "\n===== status after failure:\n"
     echo systemctl status $SERVICE --no-pager -l
     systemctl status $SERVICE --no-pager -l
