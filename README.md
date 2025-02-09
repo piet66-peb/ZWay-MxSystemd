@@ -21,6 +21,13 @@ Download the the zip file, extract and store **MxSystemd** into the Z-Way folder
 **userModules**.
 Make the bash scripts executable, if they aren't (`sudo chmod a+x *.bash`)
 
+or with wget:
+```sh
+url=https://github.com/piet66-peb/ZWay-MxSystemd/raw/refs/heads/main/download_MxSystemd.bash
+cd /tmp; wget -q -O - $url | sudo bash
+
+```
+
 For installation of the modules refer to [Using Z-Way with Systemd](./systemd.md).
 
 ## License: MIT
