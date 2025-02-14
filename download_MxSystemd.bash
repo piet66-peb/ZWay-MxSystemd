@@ -16,7 +16,7 @@
 #h Resources:    
 #h Platforms:    Linux
 #h Authors:      peb piet66
-#h Version:      V1.1.0 2025-02-07/peb
+#h Version:      V1.1.1 2025-02-14/peb
 #v History:      V1.0.0 2024-10-02/peb first version
 #h Copyright:    (C) piet66 2024
 #h
@@ -25,8 +25,8 @@
 #b Constants
 #-----------
 MODULE='download_MxSystemd.bash'
-VERSION='V1.1.0'
-WRITTEN='2025-02-07/peb'
+VERSION='V1.1.1'
+WRITTEN='2025-02-14/peb'
 
 #b Variables
 #-----------
@@ -35,9 +35,26 @@ pack=MxSystemd
 #b Commands
 #----------
 gitpack=ZWay-$pack
+gitzip=$gitpack.zip
 url=https://github.com/piet66-peb/$gitpack/archive/refs/heads/main.zip
 tardir=/opt/z-way-server/automation/userModules/
-cd /tmp; wget -O $gitpack.zip $url
-sudo unzip ${gitpack}.zip
-sudo cp -dpR ${gitpack}-main/${pack} $tardir
+tmp=/tmp
+
+echo change dir to $tmp...
+cd $tmp
+[ $? -eq 0 ] || exit 1
+
+echo downloading $gitzip...
+wget -O $gitzip $url
+[ $? -eq 0 ] || exit 1
+
+echo extracting $gitzip...
+sudo unzip $gitzip
+[ $? -eq 0 ] || exit 1
+
+echo copying $pack to $tardir...
+#sudo cp -dpR ${gitpack}-main/${pack} $tardir
+[ $? -eq 0 ] || exit 1
+
+echo done.
 
