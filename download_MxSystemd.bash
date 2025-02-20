@@ -28,8 +28,6 @@ MODULE='download_MxSystemd.bash'
 VERSION='V1.1.1'
 WRITTEN='2025-02-20/peb'
 
-set -e  # exit if any command fails
-
 #b Variables
 #-----------
 pack=MxSystemd
@@ -43,6 +41,8 @@ tmp=/tmp
 
 #b Commands
 #----------
+set -e  # exit if any command fails
+
 echo cd $tmp...
 pushd $tmp >/dev/null
 
