@@ -16,7 +16,7 @@
 #h Resources:    
 #h Platforms:    Linux
 #h Authors:      peb piet66
-#h Version:      V1.1.1 2025-02-14/peb
+#h Version:      V1.1.1 2025-02-20/peb
 #v History:      V1.0.0 2024-10-02/peb first version
 #h Copyright:    (C) piet66 2024
 #h
@@ -26,35 +26,37 @@
 #-----------
 MODULE='download_MxSystemd.bash'
 VERSION='V1.1.1'
-WRITTEN='2025-02-14/peb'
+WRITTEN='2025-02-20/peb'
+
+set -e  # exit if any command fails
 
 #b Variables
 #-----------
 pack=MxSystemd
 
-#b Commands
-#----------
 gitpack=ZWay-$pack
-gitzip=$gitpack.zip
 url=https://github.com/piet66-peb/$gitpack/archive/refs/heads/main.zip
+gitzip=$gitpack.zip
+module=${gitpack}-main/${pack}
 tardir=/opt/z-way-server/automation/userModules/
 tmp=/tmp
 
-echo change dir to $tmp...
-cd $tmp
-[ $? -eq 0 ] || exit 1
+#b Commands
+#----------
+echo cd $tmp...
+pushd $tmp >/dev/null
 
 echo downloading $gitzip...
-wget -O $gitzip $url
-[ $? -eq 0 ] || exit 1
+[ -e "$gitzip" ] && sudo rm $gitzip
+wget -nv -O $gitzip $url
 
 echo extracting $gitzip...
-sudo unzip $gitzip
-[ $? -eq 0 ] || exit 1
+[ -e "$module" ] && sudo rm -R $module
+sudo unzip -q -o $gitzip
 
 echo copying $pack to $tardir...
-#sudo cp -dpR ${gitpack}-main/${pack} $tardir
-[ $? -eq 0 ] || exit 1
+sudo cp -dpR $module $tardir
 
 echo done.
+popd >/dev/null
 
