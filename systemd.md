@@ -213,7 +213,7 @@ WantedBy=multi-user.target
 1. install 3 more shell packages, necessary for the core dump examination:<br>
    `sudo apt install systemd-coredump`<br>
    `sudo apt install lz4`<br>
-   `sudo apt-get install at`
+   `sudo apt install at`
 2. choose the target folder where the results
    of the coredump examination shall be stored
 2. create a file named **params** by copying the file **params_template** and
@@ -237,8 +237,7 @@ automatically removed.
 Note: The notification email is sent using a simple bash script. It will 
 not work for email services that require special authentication (e.g. Gmail).
 
-Note: To avoid loops on static failures, the service is only restarted once 
-per 5 minutes.
+Note: The service is only restarted after a delay of 5 minutes.
 
 ## 6. Waiting for Time Synchonization
 
@@ -288,7 +287,7 @@ WantedBy=multi-user.target
    `./install_systemd.bash z-way-server.service.timesync`<br>
 
 Note: In file /etc/systemd/timesyncd.conf it's possible to define a local
-time server.
+time server (for example the internet router).
 
 Note: Another time service software may have to be terminated and 
 deactivated (e.g. ntp, chrony, ...).
