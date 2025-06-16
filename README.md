@@ -24,7 +24,7 @@ Make the bash scripts executable, if they aren't (`sudo chmod a+x *.bash`)
 or with wget:
 ```sh
 url=https://github.com/piet66-peb/ZWay-MxSystemd/raw/refs/heads/main/download_MxSystemd.bash
-cd /tmp; wget -q -O - $url | sudo bash
+cd /tmp; wget -q -O - $url | bash
 
 ```
 
